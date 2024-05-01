@@ -20,7 +20,7 @@ result-build-job:
   stage: build
   image: docker:dind
   script:
-    - cd result
+    # - cd result
     - docker build -t ${IMAGE_PATH}/multirepo-result:$CI_COMMIT_SHORT_SHA .
     - docker push ${IMAGE_PATH}/multirepo-result:$CI_COMMIT_SHORT_SHA
  
