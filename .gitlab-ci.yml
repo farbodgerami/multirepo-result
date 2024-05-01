@@ -1,9 +1,7 @@
 stages:
- 
   - build
   - test
   - deploy
- 
 
 default:
   image: docker:dind
@@ -14,8 +12,6 @@ variables:
   IMAGE_PATH: ${REGISTRY_URL}
   VERSION: v1.0.1
 
- 
-
 result-build-job:
   stage: build
   image: docker:dind
@@ -23,18 +19,15 @@ result-build-job:
     # - cd result
     - docker build -t ${IMAGE_PATH}/multirepo-result:$CI_COMMIT_SHORT_SHA .
     - docker push ${IMAGE_PATH}/multirepo-result:$CI_COMMIT_SHORT_SHA
- 
+
 result-test-image:
   stage: test
   needs: ["result-build-job"]
   script:
     - docker pull ${IMAGE_PATH}/multirepo-result:$CI_COMMIT_SHORT_SHA
     - echo "result image test"
-    - docker tag ${IMAGE_PATH}/multirepo-result:$CI_COMMIT_SHORT_SHA ${IMAGE_PATH}/result:${VERSION}
+    - docker tag ${IMAGE_PATH}/multirepo-result:$CI_COMMIT_SHORT_SHA ${IMAGE_PATH}/multirepo-result:${VERSION}
     - docker push ${IMAGE_PATH}/multirepo-result:${VERSION}
-
- 
-
 
 deploy-to-pre-product:
   stage: deploy
